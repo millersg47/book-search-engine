@@ -37,21 +37,23 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (parent, { _id, savedBooks }) => {
-      const newBook = await User.findOneAndUpdate(
-        { _id },
-        { $addToSet: { savedBooks: params.bookId } },
-        { new: true }
-      );
-      return newBook;
+    saveBook: async (parent, { userId, bookId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: userId },
+          { $addToSet: { savedBooks: bookId } },
+          { new: true }
+        );
+      }
     },
-    deleteBook: async (parent, { _id, savedBooks }) => {
-      const deletedBook = await User.findOneAndUpdate(
-        { _id },
-        { $pull: { savedBooks: { bookId: params.bookId } } },
-        { new: true }
-      );
-      return deletedBook;
+    deleteBook: async (parent, { userId, bookId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: userId },
+          { $pull: { savedBooks: bookId } },
+          { new: true }
+        );
+      }
     },
   },
 };
