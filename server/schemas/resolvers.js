@@ -3,13 +3,13 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    singleUser: async (parent, { _id }) => {
+    me: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
       return User.find(params);
     },
   },
   Mutation: {
-    createUser: async (parent, { username, email, password }) => {
+    addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
 
       const token = signToken(user);
@@ -46,7 +46,7 @@ const resolvers = {
         );
       }
     },
-    deleteBook: async (parent, { userId, bookId }, context) => {
+    removeBook: async (parent, { userId, bookId }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: userId },
