@@ -2,9 +2,11 @@ const express = require("express");
 //adds ApolloServer to file
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
+const { authMiddleware } = require("./utils/auth");
 //adds typeDefs and resolvers to file
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
+
 //removes routes
 // const routes = require("./routes");
 
@@ -15,6 +17,7 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleware,
 });
 
 app.use(express.urlencoded({ extended: true }));

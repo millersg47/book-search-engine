@@ -15,6 +15,8 @@ import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 
 const SavedBooks = () => {
+  const { loading, data } = useQuery(GET_ME);
+  const userData = data?.users || [];
   // const [userData, setUserData] = useState({});
 
   // const userDataLength = Object.keys(userData).length;
