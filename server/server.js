@@ -7,9 +7,6 @@ const { authMiddleware } = require("./utils/auth");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 
-//removes routes
-// const routes = require("./routes");
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -27,13 +24,6 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
-
-//replaced with the follow startApolloServer function
-// app.use(routes);
-
-// db.once("open", () => {
-//   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
-// });
 
 //replacing the routes with an Apollo server with Graphql schema
 const startApolloServer = async (typeDefs, resolvers) => {
