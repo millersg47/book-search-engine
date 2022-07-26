@@ -5,7 +5,7 @@ const resolvers = {
   Query: {
     me: async (parent, { _id }) => {
       const params = _id ? { _id } : {};
-      return User.find(params);
+      return User.findOne(params);
     },
   },
   Mutation: {
@@ -37,19 +37,19 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (parent, { userId, bookId }, context) => {
+    saveBook: async (parent, { bookData }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(
-          { _id: userId },
-          { $addToSet: { savedBooks: bookId } },
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: bookData } },
           { new: true }
         );
       }
     },
-    removeBook: async (parent, { userId, bookId }, context) => {
+    removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(
-          { _id: userId },
+          { _id: context.user._id },
           { $pull: { savedBooks: bookId } },
           { new: true }
         );
