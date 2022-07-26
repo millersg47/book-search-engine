@@ -18,16 +18,14 @@ const resolvers = {
       return user;
     },
 
-    login: async (parent, { body }) => {
-      const user = await Profile.findOne({
-        $or: [{ username: body.username }, { email: body.email }],
-      });
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
 
       if (!user) {
         throw new AuthenticationError("No user with this email found!");
       }
 
-      const correctPw = await user.isCorrectPassword(body.password);
+      const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
         throw new AuthenticationError("Incorrect password!");
@@ -54,6 +52,8 @@ const resolvers = {
           { new: true }
         );
       }
+
+      throw new AuthenticationError("You need to be logged in!");
     },
   },
 };
