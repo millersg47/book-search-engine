@@ -3,11 +3,13 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    me: async (parent, { _id }) => {
-      const params = _id ? { _id } : {};
-      return User.findOne(params);
+    me: async (parent, { _id }, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id });
+      }
     },
   },
+
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });

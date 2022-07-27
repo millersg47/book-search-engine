@@ -8,7 +8,7 @@ import {
   Card,
   CardColumns,
 } from "react-bootstrap";
-import { useMutation } from "apollo/client";
+import { useMutation } from "@apollo/client";
 
 import Auth from "../utils/auth";
 import { SAVE_BOOK } from "../utils/mutations";
