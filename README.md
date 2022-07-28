@@ -20,7 +20,7 @@ Application allows users to create an account and search books while saving spec
 
 ## Installation
 
-No installation required, simply follow this link to the application.
+No installation required, simply follow [this link](https://pacific-ravine-87090.herokuapp.com/) to the application.
 
 ## Usage
 
